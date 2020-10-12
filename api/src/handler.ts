@@ -1,11 +1,32 @@
-import { APIGatewayProxyHandler } from 'aws-lambda';
+/* eslint-disable import/no-unresolved */
 import 'source-map-support/register';
+import { APIGatewayProxyHandler } from 'aws-lambda';
 
-export const hello: APIGatewayProxyHandler = async (event, _context) => {
+import CreateUserService from './app/services/CreateUserService';
+import AuthenticateMailService from './app/services/AuthenticateMailService';
+
+export const createUser: APIGatewayProxyHandler = async event => {
+  const createUserService = new CreateUserService();
+
+  const { email, password, name } = JSON.parse(event.body);
+
+  const user = await createUserService.execute({ email, password, name });
+
+  return {
+    statusCode: 201,
+    body: JSON.stringify(user),
+  };
+};
+
+export const autenticateByMail: APIGatewayProxyHandler = async event => {
+  const authenticateMailService = new AuthenticateMailService();
+
+  const { email, password } = JSON.parse(event.body);
+
+  const user = await authenticateMailService.execute({ email, password });
+
   return {
     statusCode: 200,
-    body: JSON.stringify({
-      message: 'Go Serverless Webpack (Typescript) v1.0! Your function executed successfully!',
-    }),
+    body: JSON.stringify(user),
   };
-}
+};
