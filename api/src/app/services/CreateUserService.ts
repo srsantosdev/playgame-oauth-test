@@ -12,6 +12,10 @@ interface IRequest {
 export default class CreateUserService {
   public async execute({ name, email, password }: IRequest): Promise<Document> {
     try {
+      if (!password) {
+        throw new Error('Password is required.');
+      }
+
       const hashedPassword = await hash(password, 15);
 
       const user = await User.create({ name, email, password: hashedPassword });

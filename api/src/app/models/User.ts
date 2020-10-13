@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   name: string;
+  auth_type?: string;
 }
 
 const UserSchema = new mongoose.Schema({
@@ -20,8 +21,10 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
     select: false,
+  },
+  auth_type: {
+    type: String,
   },
   created_at: {
     type: Date,

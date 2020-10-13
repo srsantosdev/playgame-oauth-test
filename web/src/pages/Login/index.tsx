@@ -7,6 +7,7 @@ import googleLogo from '../../assets/googlelogo.svg';
 import Input from '../../components/Input';
 
 import { Container, SocialButtons, Separator } from './styles';
+import googleOAuthLink from '../../services/OAuth/google.oauth';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,9 @@ const Login: React.FC = () => {
 
   const handleAuthWithFacebook = useCallback(() => {}, []);
 
-  const handleAuthWithGoogle = useCallback(() => {}, []);
+  const handleAuthWithGoogle = useCallback(() => {
+    window.location.href = googleOAuthLink();
+  }, []);
 
   return (
     <Container>
